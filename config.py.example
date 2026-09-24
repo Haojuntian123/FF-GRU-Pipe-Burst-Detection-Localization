@@ -1,0 +1,282 @@
+"""Local configuration template for the public code release.
+
+Copy this file to `config.py`, fill in your local paths, and keep it
+untracked. The repository publishes code and execution entrypoints, not
+machine-specific experiment settings.
+"""
+
+from __future__ import annotations
+
+import torch
+
+# ---------------------------------------------------------------------------
+# Runtime
+# ---------------------------------------------------------------------------
+
+SEED = 66  # independent runs: 66, 67, 68, 69, 70
+DEVICE = torch.device("cpu")
+DTYPE = torch.float32
+
+# ---------------------------------------------------------------------------
+# Task selection
+# ---------------------------------------------------------------------------
+
+TASK = "detection"  # "detection" or "localization"
+MODEL_NAME = "GRU"  # GRU, CNN, GCN, FA-DenseNet, FF-GRU, FF-CNN, FF-GCN, FF-FA-DenseNet
+MODEL_TYPE = MODEL_NAME
+RUN_TAG = f"{TASK}_{MODEL_NAME.replace('-', '_')}_seed{SEED}"
+
+# ---------------------------------------------------------------------------
+# Core paths
+# ---------------------------------------------------------------------------
+
+NETWORK_FILE = "path/to/network.inp"
+MODEL_FILE = NETWORK_FILE
+INP_FILE = NETWORK_FILE
+HYDRAULIC_MODEL = NETWORK_FILE
+
+PARTITION_SCHEME_FILE = "path/to/partition.xlsx"
+SHEET_NAME = "Sheet1"
+
+BURST_DATA_FOLDER = "path/to/burst_data"
+BURST_DATA_DIR = BURST_DATA_FOLDER
+DATA_DIR = BURST_DATA_FOLDER
+
+OUTPUT_DIR = "outputs"
+MODEL_SAVE_PATH = f"{OUTPUT_DIR}/{RUN_TAG}_state.pth"
+RESULTS_PATH = f"{OUTPUT_DIR}/{RUN_TAG}_metrics.csv"
+RESULT_FILE_PATH = RESULTS_PATH
+NORMAL_PRESSURE_FILE = f"{OUTPUT_DIR}/normal_pressure.csv"
+NORMAL_FLOW_FILE = f"{OUTPUT_DIR}/normal_flow.csv"
+SENSITIVITY_OUTPUT_DIR = f"{OUTPUT_DIR}/sensitivity"
+OUTPUT_FILE = f"{OUTPUT_DIR}/{RUN_TAG}_analysis.xlsx"
+MODIFIED_MODEL_PATH = f"{OUTPUT_DIR}/modified_model.inp"
+
+# ---------------------------------------------------------------------------
+# Data generation controls
+# ---------------------------------------------------------------------------
+
+BUILD_MODIFIED_MODEL = False
+GENERATE_NORMAL_DATA = False
+GENERATE_BURST_DATA = False
+GENERATE_SENSITIVITY_DATA = False
+
+BURST_LEVEL = [0.01, 0.02]
+BURST_LEVEL_LEN = len(BURST_LEVEL)
+DISCHARGE_COEFF = 0.75
+DEFAULT_BURST_START = 0
+BURST_INTERVAL = 3600
+SENSITIVITY_BURST_LEVEL = 0.2
+
+REQ_PRESSURE = 0.0
+MIN_PRESSURE = 0.0
+PRESSURE_EXPONENT = 0.0
+SIM_DURATION = 0
+HYD_TIMESTEP = 0
+PATTERN_TIMESTEP = 0
+REPORT_TIMESTEP = 0
+ADD_PATTERN_NOISE = False
+ORIG_PATTERN_STEP = 3600
+NEW_PATTERN_STEP = 60
+NOISE_STD = 0.0
+# Additive pressure-measurement noise applied to both normal and PB simulations.
+PRESSURE_NOISE_STD = 0.50
+
+# ---------------------------------------------------------------------------
+# Data preprocessing controls
+# ---------------------------------------------------------------------------
+
+NORMAL_SAMPLES = 0
+AUGMENTATION_REPEATS = 0
+SUB_SAMPLES = 0
+
+# ---------------------------------------------------------------------------
+# Dataset paths
+# ---------------------------------------------------------------------------
+
+SPLIT_DATA_DIR = "outputs/splits"
+TRAIN_NORM_FILE = f"{SPLIT_DATA_DIR}/train_normal_pressure.csv"
+VAL_NORM_FILE = f"{SPLIT_DATA_DIR}/val_normal_pressure.csv"
+TEST_NORM_FILE = f"{SPLIT_DATA_DIR}/test_normal_pressure.csv"
+TRAIN_BURST_FILE = f"{SPLIT_DATA_DIR}/train_burst_pressure.csv"
+VAL_BURST_FILE = f"{SPLIT_DATA_DIR}/val_burst_pressure.csv"
+TEST_BURST_FILE = f"{SPLIT_DATA_DIR}/test_burst_pressure.csv"
+
+TRAIN_NORM_PRESSURE = TRAIN_NORM_FILE
+VAL_NORM_PRESSURE = VAL_NORM_FILE
+TEST_NORM_PRESSURE = TEST_NORM_FILE
+TRAIN_BURST_PRESSURE = TRAIN_BURST_FILE
+VAL_BURST_PRESSURE = VAL_BURST_FILE
+TEST_BURST_PRESSURE = TEST_BURST_FILE
+TRAIN_NORM_FLOW = f"{SPLIT_DATA_DIR}/train_normal_flow.csv"
+VAL_NORM_FLOW = f"{SPLIT_DATA_DIR}/val_normal_flow.csv"
+TEST_NORM_FLOW = f"{SPLIT_DATA_DIR}/test_normal_flow.csv"
+TRAIN_BURST_FLOW = f"{SPLIT_DATA_DIR}/train_burst_flow.csv"
+VAL_BURST_FLOW = f"{SPLIT_DATA_DIR}/val_burst_flow.csv"
+TEST_BURST_FLOW = f"{SPLIT_DATA_DIR}/test_burst_flow.csv"
+TRAIN_NORM_IDS = f"{SPLIT_DATA_DIR}/train_normal_ids.csv"
+VAL_NORM_IDS = f"{SPLIT_DATA_DIR}/val_normal_ids.csv"
+TEST_NORM_IDS = f"{SPLIT_DATA_DIR}/test_normal_ids.csv"
+TRAIN_BURST_IDS = f"{SPLIT_DATA_DIR}/train_burst_ids.csv"
+VAL_BURST_IDS = f"{SPLIT_DATA_DIR}/val_burst_ids.csv"
+TEST_BURST_IDS = f"{SPLIT_DATA_DIR}/test_burst_ids.csv"
+
+TRAIN_DATA_PATH = TRAIN_BURST_PRESSURE
+TRAIN_PRESSURE_PATH = TRAIN_DATA_PATH
+TRAIN_LABEL_PATH = f"{SPLIT_DATA_DIR}/train_burst_label.csv"
+TRAIN_FLOW_PATH = TRAIN_BURST_FLOW
+
+VAL_PRESSURE_PATHS = [VAL_BURST_PRESSURE]
+VAL_LABEL_PATHS = [f"{SPLIT_DATA_DIR}/val_burst_label.csv"]
+VAL_FLOW_PATHS = [VAL_BURST_FLOW]
+VAL_BURST_ID_PATHS = [VAL_BURST_IDS]
+TEST_PRESSURE_PATHS = [TEST_BURST_PRESSURE]
+TEST_LABEL_PATHS = [f"{SPLIT_DATA_DIR}/test_burst_label.csv"]
+TEST_FLOW_PATHS = [TEST_BURST_FLOW]
+TEST_BURST_ID_PATHS = [TEST_BURST_IDS]
+
+# ---------------------------------------------------------------------------
+# Sensors and graphs
+# ---------------------------------------------------------------------------
+
+FLOW_SENSORS = []
+FLOW_SENSOR_INDEXES = FLOW_SENSORS
+PRESSURE_SENSOR_INDEXES = []
+PRESSURE_SENSORS = PRESSURE_SENSOR_INDEXES
+PRESSURE_MONITORS = PRESSURE_SENSOR_INDEXES
+MONITORS = PRESSURE_SENSOR_INDEXES
+
+GRAPH = None
+SENSOR_GRAPH = None
+SENSOR_ADJACENCY_MATRIX = []
+HYDRAULIC_CORRELATION_MATRIX = []
+PARTITION_MAP = {}
+SENSOR_GROUPS = {}
+
+# ---------------------------------------------------------------------------
+# Dimensions and architecture
+# ---------------------------------------------------------------------------
+
+SEQUENCE_LENGTH = 60
+SERIES_LENGTH = SEQUENCE_LENGTH
+SERIOUS_LEN = SEQUENCE_LENGTH
+WINDOW_SIZE = SEQUENCE_LENGTH
+
+LEFT_OFFSET = 0
+RIGHT_OFFSET = 0
+TIME_OFFSETS = [0, 0]
+
+DATA_SPLIT = False
+# Assign source periods and parent burst events to separate sets before
+# windowing; train.py does not partition already-flattened window files.
+
+# Flow files are interval readings generated by the hydraulic simulation.
+# "sum" aggregates the readings across one event window.
+# "volume" integrates rates (volume/second) over each interval and window.
+FLOW_REDUCE = "sum"
+FLOW_INTERVAL_SECONDS = 60.0
+
+NUM_CLASSES = 0  # set locally for localization runs
+N_CLASSES = NUM_CLASSES
+OUTPUT_CLASSES = NUM_CLASSES
+NUM_LEAKAGE_CLASSES = NUM_CLASSES
+NUM_LEAK_CLASSES = NUM_CLASSES
+OUT_FEATURES = NUM_CLASSES
+
+NUM_PRESSURE_SENSORS = 0
+NUM_PRESSURE_FEATURES = 0
+PRESSURE_FEATURE_DIM = 0
+N_FEATURES = 0
+IN_FEATURES = N_FEATURES
+INPUT_FEATURES = N_FEATURES
+
+GRU_HIDDEN = 48
+GRU_HIDDEN_DIM = GRU_HIDDEN
+GRU_HIDDEN_SIZE = GRU_HIDDEN
+GRU_NUM_LAYERS = 3
+# GRU depth search: 2, 3, 4. Select one value per run.
+GRU_DROPOUT = 0.0
+# GRU width, dropout, learning rate and batch size are configured independently.
+
+LINEAR_HIDDEN = 64
+LINEAR_DIM = LINEAR_HIDDEN
+CLASSIFIER_HIDDEN_DIM = LINEAR_HIDDEN
+
+IN_CHANNELS = 1
+IN_CHANNEL = IN_CHANNELS
+INPUT_CHANNELS = IN_CHANNELS
+CNN_IN_CHANNELS = IN_CHANNELS
+
+HIDDEN_CHANNEL1 = 8
+HIDDEN_CHANNEL2 = 16
+OUT_CHANNEL = 32
+OUT_CHANNELS = OUT_CHANNEL
+OUTPUT_CHANNELS = OUT_CHANNELS
+CNN_CHANNEL1 = HIDDEN_CHANNEL1
+CNN_CHANNEL2 = HIDDEN_CHANNEL2
+CNN_OUT_CHANNELS = OUT_CHANNELS
+CNN_PADDING = 2
+HIDDEN_FEATURES = 64
+HIDDEN_FEATURE = HIDDEN_FEATURES
+CNN_HIDDEN_FEATURES = HIDDEN_FEATURES
+
+GCN_HIDDEN = 32
+# GCN ablation: vary GCN_HIDDEN, NODE_READOUT or USE_RESIDUAL per run.
+NODE_READOUT = "mean"
+TIME_READOUT = "mean"
+READOUT_ORDER = "node_time"
+CLASSIFIER_MODE = "pooled"
+FEATURE_NORM = "none"
+USE_RESIDUAL = False
+TEMPORAL_CONV_KERNEL = 0
+TEMPORAL_CONV_LAYERS = 0
+TEMPORAL_HIDDEN = 0
+TEMPORAL_LAYERS = 1
+TEMPORAL_DROPOUT = 0.0
+TEMPORAL_READOUT = "last"
+TEMPORAL_INPUT = "flatten"
+
+LAQ_HIDDEN_DIM = 26  # FF-GRU and FF-GCN; CNN/FA-DenseNet use sensor-scaled widths
+FLOW_FUSION_DIM = 0
+LATENT_DIM = 0
+LATENT_DIMENSION = LATENT_DIM
+PROJECTED_FEATURES = 0
+FUSION_OUTPUT_DIM = 0
+
+ATTENTION_REDUCTION = 16
+FA_BLOCK_DROPOUT = 0.5  # FA-DenseNet block ablation: 0.0, 0.25, 0.5.
+SE_REDUCTION_RATIO = ATTENTION_REDUCTION
+EXPAND_FACTOR = 2.0
+DROPOUT_RATE = 0.0
+FA_HIDDEN_LAYER_DIMS = [128, 256, 128]
+DENSE_BLOCK_CONFIGURATIONS = []
+INITIAL_FEATURE_DIM = 0
+FINAL_HIDDEN_DIM = 0
+NUM_BLOCKS = 5
+# FA-DenseNet: fixed five-block architecture; vary training settings per run.
+CONV_CHANNELS = [HIDDEN_CHANNEL1, HIDDEN_CHANNEL2]
+CHANNELS = CONV_CHANNELS
+
+# ---------------------------------------------------------------------------
+# Training
+# ---------------------------------------------------------------------------
+
+# Set the run length locally before training; no epoch count is inferred.
+BATCH_SIZE = 256
+LEARNING_RATE = 1e-3
+MAX_EPOCHS = 0
+DETECTION_CLASS_WEIGHTS = [16, 1]  # normal, burst
+LOCALIZATION_CLASS_WEIGHTS = []  # unweighted unless specified locally
+SAVE_MODEL = False
+SAVE_RESULTS = True
+SAVE_PREDICTIONS = True
+PREDICTIONS_PATH = f"{OUTPUT_DIR}/{{task}}_{{model}}_seed{SEED}_test{{index}}_predictions.csv"
+# Each FF backbone can run its own fusion ablation with the same dataset.
+# Modes: cascade, pressure_only, flow_only, concat, dense_topology.
+FUSION_MODES = {
+    "FF-GRU": "cascade",
+    "FF-CNN": "cascade",
+    "FF-GCN": "cascade",
+    "FF-FA-DENSENET": "cascade",
+}
+N_METRICS = 12

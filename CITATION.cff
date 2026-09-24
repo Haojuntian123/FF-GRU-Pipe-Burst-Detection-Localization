@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated paper and this code release."
+title: "Feature Fusion Gated Recurrent Unit for Pipe Burst Detection and Localization in Water Distribution Networks"
+version: "1.0.0"
+date-released: 2026-05-08
+license: MIT
+repository-code: "https://github.com/Haojuntian123/FF-GRU-Pipe-Burst-Detection-Localization"
+authors:
+  - family-names: Hao
+    given-names: Juntian
